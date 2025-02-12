@@ -1,13 +1,12 @@
-# ☀️ Wearher app ☁️
+# ☀️ Wearher App ☁️
 
-**Weather app**  is an Android application that provides real-time weather updates for any location using the Weather API.
+**Weather App**  is an Android application that provides real-time weather updates for any location using the Weather API.
 
 ---
 
-## 📸 Screenshots
+## 📹 Demo
 
-
-
+https://github.com/user-attachments/assets/467e6a80-5aa1-4667-8cbd-da1fb8f78a0f
 
 ---
 
