@@ -12,7 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val DayColor=Color(0xFFE3F2FD)
 val MyBlue=Color(0xFF3455a8)
-val NightColor=Color(0xFF15174d)
+val NightColor=Color(0xFF032c6e)
 val MyGray=Color(0xFF587487)
 val CardColor2=Color(0xFF95caf0)
 val DayColor2=Color(0xFF0364a6)

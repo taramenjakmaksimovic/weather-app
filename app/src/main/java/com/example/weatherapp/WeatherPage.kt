@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
@@ -60,7 +62,7 @@ fun WeatherPage(viewModel: WeatherViewModel) {
         mutableStateOf("")
     }
 
-    var backgroundBrush by remember{
+    var backgroundBrush by remember {
         mutableStateOf(Brush.verticalGradient(listOf(DayColor, DayColor)))
     }
 
@@ -78,11 +80,12 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                 val isDaytime =
                     (weatherResult.value as NetworkResponse.Success).data.current.is_day.toInt() == 1
                 if (isDaytime) {
-                    Brush.verticalGradient(listOf(DayColor, DayColor2 ))
+                    Brush.verticalGradient(listOf(DayColor, DayColor2))
                 } else {
                     Brush.verticalGradient(listOf(NightColor, Color.Black))
                 }
             }
+
             else -> Brush.verticalGradient(listOf(DayColor, DayColor))
         }
     }
@@ -111,7 +114,9 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                 .background(backgroundBrush)
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        )
+        {
+            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -129,7 +134,8 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                         Text(
                             text = "Search for any location",
                             color = textColor,
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     },
                     textStyle = TextStyle(
                         fontSize = 20.sp,
@@ -159,48 +165,48 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                 }
 
             }
+                when (val result = weatherResult.value) {
+                    is NetworkResponse.Error -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = result.message,
+                                color = Color.Red,
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                            )
+                        }
+                    }
 
-            when (val result = weatherResult.value) {
-                is NetworkResponse.Error -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = result.message,
-                            color = Color.Red,
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth().padding(16.dp)
-                        )
+                    NetworkResponse.Loading -> {
+                        CircularProgressIndicator()
+                    }
+
+                    is NetworkResponse.Success -> {
+                        WeatherDetails(data = result.data, textColor)
+                    }
+
+                    null -> {
+
                     }
                 }
 
-                NetworkResponse.Loading -> {
-                    CircularProgressIndicator()
-                }
-
-                is NetworkResponse.Success -> {
-                    WeatherDetails(data = result.data, textColor)
-                }
-
-                null -> {
-
-                }
             }
-
         }
     }
-}
 
 @Composable
 fun WeatherDetails(data: WeatherModel, textColor: Color) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
