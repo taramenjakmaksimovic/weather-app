@@ -1,4 +1,4 @@
-# ☀️ Wearher App ☁️
+# ☀️ Weather App ☁️
 
 **Weather App**  is an Android application that provides real-time weather updates for any location using the Weather API.
 
