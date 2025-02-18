@@ -6,7 +6,9 @@
 
 ## 📹 Demo
 
-https://github.com/user-attachments/assets/467e6a80-5aa1-4667-8cbd-da1fb8f78a0f
+
+https://github.com/user-attachments/assets/dde2e52d-2df0-434a-821a-1ff0636d1b03
+
 
 ---
 
@@ -25,7 +27,7 @@ https://github.com/user-attachments/assets/467e6a80-5aa1-4667-8cbd-da1fb8f78a0f
 2. **Open in Android Studio**: <br>
 Select "Open an Existing Project" and navigate to the cloned directory.
 3. **Set your API key**: <br>
-Navigate to app/src/main/java/com/example/weatherapp/api/Constant.kt and replace "YOUR_API_KEY" with your own API key.
+Navigate to `app/src/main/java/com/example/weatherapp/api/Constant.kt` and replace `"YOUR_API_KEY"` with your own API key.
 4. **Run the app**: <br>
 Select your emulator or connected device and click "Run" button.
 
