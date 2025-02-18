@@ -128,7 +128,7 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                     modifier = Modifier.weight(1f),
                     value = city,
                     onValueChange = {
-                        city = it
+                        city = it.replaceFirstChar { char -> char.uppercaseChar() }
                     },
                     label = {
                         Text(
