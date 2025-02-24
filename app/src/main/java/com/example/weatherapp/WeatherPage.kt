@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -37,10 +39,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextLayoutInput
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,7 +79,6 @@ fun WeatherPage(viewModel: WeatherViewModel) {
     var textColor by remember {
         mutableStateOf(MyBlue)
     }
-
     val weatherResult = viewModel.weatherResult.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -125,10 +134,23 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f)
+                        .onKeyEvent { event ->
+                            if (event.type == KeyEventType.KeyUp && event.key == Key.Enter ){
+                                city = city.trim()
+                                if(city.isNotBlank()) {
+                                    viewModel.getData(city)
+                                    keyboardController?.hide()
+                                }
+                                true
+                            } else {
+                                false
+                            }
+                        },
                     value = city,
                     onValueChange = {
-                        city = it.replaceFirstChar { char -> char.uppercaseChar() }
+                          city = it.replace("\n", "")
+                              .replaceFirstChar { char -> char.uppercaseChar()}
                     },
                     label = {
                         Text(
@@ -149,6 +171,17 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                         unfocusedLabelColor = textColor,
                         focusedBorderColor = textColor,
                         unfocusedBorderColor = textColor
+                    ),
+                    maxLines = 2,
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            city=city.trim()
+                            if(city.isNotBlank()) {
+                                viewModel.getData(city)
+                                keyboardController?.hide()
+                            }
+                        }
                     )
                 )
                 Spacer(modifier = Modifier.width(16.dp))
