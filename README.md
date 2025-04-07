@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/dde2e52d-2df0-434a-821a-1ff0636d1b03
 
 1. **Clone the Repository**:
    ```bash  
-   https://github.com/taramenjakmaksimovic/weather-app.git
+   git clone https://github.com/taramenjakmaksimovic/weather-app.git
 2. **Open in Android Studio**: <br>
 Select "Open an Existing Project" and navigate to the cloned directory.
 3. **Set your API key**: <br>
